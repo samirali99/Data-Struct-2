@@ -42,16 +42,18 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     public DHeap( int capacity )
     {
         currentSize = 0;
-        array = (AnyType[]) new Comparable[ capacity + 1 ];
+        array = (AnyType[]) new Integer[ capacity + 1 ];
     }
     
     /**
      * Construct the binary heap given an array of items.
      */
+    @SuppressWarnings
+    // Odin did not like the AnyType class
     public DHeap( AnyType [ ] items )
     {
         currentSize = items.length;
-        array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
+        array = (AnyType[]) new Integer[ ( currentSize + 2 ) * 11 / 10 ];
         
         int i = 1;
         for( AnyType item : items )
@@ -64,6 +66,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      * Duplicates are allowed.
      * @param x the item to insert.
      */
+    @SuppressWarnings
     public void insert( AnyType x )
     {
         if( currentSize == array.length - 1 )
@@ -82,11 +85,11 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     {
         if (depth < 3)
         {
-            return (Math.ceil((index - 1) / (depth)) + 1);
+            return ( (int) Math.ceil((index - 1) / (depth)) + 1);
         }
         else
         {
-            return Math.ceil((index - 1) / (depth));
+            return (int) Math.ceil((index - 1) / (depth));
         }
     }
 
@@ -106,7 +109,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     private void enlargeArray( int newSize )
     {
         AnyType [] old = array;
-        array = (AnyType []) new Comparable[ newSize ];
+        array = (AnyType []) new Integer[ newSize ];
         for( int i = 0; i < old.length; i++ )
             array[ i ] = old[ i ];        
     }
@@ -194,10 +197,10 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
 
             for (int i = 1; i < heapDepth; i++)
             {
-                int temp = array[child];
-                if (array[child + 1].compareto(temp) < 0)
+                int temp = (int) array[child];
+                if ((array[child + 1]).compareto(temp) < 0)
                 {
-                    temp = array[child + 1];
+                    temp = (int) array[child + 1];
                 }
                 child++;
             }
@@ -207,7 +210,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
                 child++;
                 */
 
-            if( array[ child ].compareTo( tmp ) < 0 )
+            if( (array[ child ]).compareTo( tmp ) < 0 )
                 array[ hole ] = array[ child ];
             else
                 break;
@@ -218,7 +221,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         // Test program
     public static void main( String [ ] args )
     {
-        BinaryHeap<Integer> h = new BinaryHeap<Integer>( );
+        DHeap<Integer> h = new DHeap<Integer>( );
 
         Scanner in = new Scanner(System.in);
         //ArrayList<Int> heapList = new ArrayList<Int>();
@@ -239,7 +242,9 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         System.out.println("Enter d: ");
         heapDepth = in.nextInt();
 
-        System.out.println("Output: Heap (d=" + heapDepth + " : " + h.print());
+        System.out.println("Output: Heap (d=" + heapDepth + " : ");
+        h.print();
+        System.out.println("I have" + 5 + "hands");
 
 
         System.out.println("Press 1) for insert, 2) for deleteMin, 3) for buildHeap with new d value, 4) to quit");
@@ -253,20 +258,22 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
                 System.out.println("Enter element to insert: ");
                 int add = in.nextInt();
                 h.insert(add);
-                System.out.println("Output: Heap (d=" + heapDepth + " : " + h.print());
-
+                System.out.println("Output: Heap (d=" + heapDepth + " : ");
+                h.print();
             }
             else if (choice == 2) //deleteMin
             {
                 h.deleteMin();
-                System.out.println("Output: Heap (d=" + heapDepth + " : " + h.print());
+                System.out.println("Output: Heap (d=" + heapDepth + " : ");
+                h.print();
             }
             else if (choice == 3) //buildHeap
             {
                 System.out.println("Enter d: ");
                 heapDepth = in.nextInt();
                 h.buildHeap();
-                System.out.println("Output: Heap (d=" + heapDepth + " : " + h.print());
+                System.out.println("Output: Heap (d=" + heapDepth + " : ");
+                h.print();
             }
             System.out.println();
             System.out.println("Press 1) for insert, 2) for deleteMin, 3) for buildHeap with new d value, 4) to quit");
@@ -274,6 +281,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
             choice = in.nextInt();
         }
         System.out.println("Program Terminated");
+        in.close();
 
         /*for( int i = 10; i > 0; i--) {
             h.insert( i );
